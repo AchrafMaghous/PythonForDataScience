@@ -1,2 +1,2 @@
-def	count_in_list(nums: list, word : str) -> int:
-	return nums.count(word)
+def count_in_list(lst, item):
+    return lst.count(item)
