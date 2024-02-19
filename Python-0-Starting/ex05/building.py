@@ -1,6 +1,10 @@
 import sys
 
 def treat(data: str=None):
+	'''
+	@param data: str
+	@description: count the number of characters, upper letters, lower letters, punctuation marks, spaces and digits in the given text.
+	'''
 	if data == None:
 		data = input("What is the text to count?\n")
 	puncts = ("!", ",", "\'", ";", "\"", ".", "-", "?")
@@ -13,6 +17,7 @@ def treat(data: str=None):
 	print(f"{sum([1 if c.isdigit() else 0 for c in data])} digits")
 
 def	main():
+	# print(treat.__doc__)
 	try:
 		assert len(sys.argv) <= 2, "more than one argument is provided"
 		treat(sys.argv[1] if len(sys.argv) == 2 else None)
