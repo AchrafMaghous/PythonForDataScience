@@ -1,3 +1,5 @@
 flake8
 tqdm
 numpy
+matplotlib
+scikit-image
