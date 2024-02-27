@@ -36,7 +36,7 @@ def zoom(img_arr: np.ndarray, zoom: int | float, start_px: tuple = (0, 0)) -> li
             raise ValueError
         if not all([x >= 0 for x in img_arr.shape]):
             raise ValueError
-        height, width, color = img_arr.shape
+        height, width, _ = img_arr.shape
         new_dimension = min(height, width)
         new_height = int(new_dimension / zoom)
         new_width = int(new_dimension / zoom)
@@ -44,7 +44,7 @@ def zoom(img_arr: np.ndarray, zoom: int | float, start_px: tuple = (0, 0)) -> li
         right = left + new_width
         lower = upper + new_height
         if right > width or lower > height:
-            raise ValueError
+            raise AssertionError("Error: zoomed area is out of bounds")
         zoomed_img = img_arr[upper:lower, left:right, 0:1]
         print(f"New shape after slicing: {zoomed_img.shape} or ({zoomed_img.shape[0]}, {zoomed_img.shape[1]})")
         return zoomed_img
