@@ -47,24 +47,34 @@ def zoom(img_arr: np.ndarray, zoom: int | float, starting_xy: tuple = (0, 0)) ->
         print("Error: invalid input type")
         return None
 
-def rotate(img_arr : np.ndarray) -> np.ndarray:
-    if img_arr is None:
-        raise TypeError
-    if not isinstance(img_arr, np.ndarray):
-        raise TypeError
-    if len(img_arr.shape) != 3:
-        raise ValueError
-    x = np.rot90(img_arr)
-    print(f"New shape after Transpose: {x.shape[0], x.shape[1]}")
-    return x
+def transpose(img_arr : np.ndarray) -> np.ndarray:
+    """
+    @param img_arr: np.ndarray
+    @return: np.ndarray
+
+    This function takes an image array and transposes it
+    """
+    try:
+        if img_arr is None:
+            raise TypeError
+        if not isinstance(img_arr, np.ndarray):
+            raise TypeError
+        if len(img_arr.shape) != 3:
+            raise ValueError
+        res = [[img_arr[j][i] for j in range(len(img_arr))] for i in range(len(img_arr[0]))]
+        res = np.array(res)
+        print(f"New shape after Transpose: {res.shape[0], res.shape[1]}")
+        return res
+    except ValueError:
+        print("Error: invalid input value")
+        return None
 
 def main():
     try:
         img_arr = ft_load('animal.jpeg')
         zoomed_img_arr = zoom(img_arr, 1.92, (450, 100))
         print(zoomed_img_arr)
-        mirrored_img = np.fliplr(zoomed_img_arr)
-        transposed_img = rotate(mirrored_img)
+        transposed_img = transpose(zoomed_img_arr)
         if transposed_img is None:
             return
         print(transposed_img[0:400,0:400,0])

@@ -54,6 +54,7 @@ def zoom(img_arr: np.ndarray, zoom: int | float, starting_xy: tuple = (0, 0)) ->
 def main():
     try:
         img_arr = ft_load('animal.jpeg')
+        # img_arr is an np.ndarray of the img
         print(img_arr)
         # finding the right zoom and starting pixel value was just a matter of testing a lot of values...
         zoomed = zoom(img_arr, 1.92, (450, 100))
