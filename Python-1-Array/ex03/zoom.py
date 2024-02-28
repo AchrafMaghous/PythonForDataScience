@@ -4,11 +4,11 @@ import matplotlib.pyplot as plt
 
 from load_image import ft_load
 
-def zoom(img_arr: np.ndarray, zoom: int | float, start_px: tuple = (0, 0)) -> list:
+def zoom(img_arr: np.ndarray, zoom: int | float, starting_xy: tuple = (0, 0)) -> list:
     """
     @param img_arr: numpy.ndarray
     @param zoom: int | float
-    @param start_px: tuple
+    @param starting_xy: tuple
     @return: list
 
     This function takes an image array and zooms in on a specific area of the image. The function takes the image array
@@ -20,27 +20,21 @@ def zoom(img_arr: np.ndarray, zoom: int | float, start_px: tuple = (0, 0)) -> li
             raise TypeError
         if not isinstance(zoom, (int, float)):
             raise TypeError
-        if not isinstance(start_px, tuple):
+        if not isinstance(starting_xy, tuple):
             raise TypeError
-        if not all([isinstance(x, int) for x in start_px]):
+        if not all([isinstance(x, int) for x in starting_xy]):
             raise TypeError
-        if not all([x >= 0 for x in start_px]):
+        if not all([x >= 0 for x in starting_xy]):
             raise ValueError
         if zoom < 1:
             raise ValueError
         if len(img_arr.shape) != 3:
             raise ValueError
-        if img_arr.shape[2] != 3:
-            raise ValueError
-        if not all([isinstance(x, int) for x in img_arr.shape]):
-            raise ValueError
-        if not all([x >= 0 for x in img_arr.shape]):
-            raise ValueError
         height, width, _ = img_arr.shape
         new_dimension = min(height, width)
         new_height = int(new_dimension / zoom)
         new_width = int(new_dimension / zoom)
-        left, upper = start_px
+        left, upper = starting_xy
         right = left + new_width
         lower = upper + new_height
         if right > width or lower > height:
@@ -61,6 +55,7 @@ def main():
     try:
         img_arr = ft_load('animal.jpeg')
         print(img_arr)
+        # finding the right zoom and starting pixel value was just a matter of testing a lot of values...
         zoomed = zoom(img_arr, 1.92, (450, 100))
         if zoomed is None:
             return

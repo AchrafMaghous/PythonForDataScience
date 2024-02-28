@@ -1,0 +1,79 @@
+from load_image import ft_load
+import matplotlib.pyplot as plt
+import numpy as np
+
+def zoom(img_arr: np.ndarray, zoom: int | float, starting_xy: tuple = (0, 0)) -> list:
+    """
+    @param img_arr: numpy.ndarray
+    @param zoom: int | float
+    @param starting_xy: tuple
+    @return: list
+
+    This function takes an image array and zooms in on a specific area of the image. The function takes the image array
+    """
+    try:
+        if img_arr is None:
+            raise TypeError
+        if not isinstance(img_arr, np.ndarray):
+            raise TypeError
+        if not isinstance(zoom, (int, float)):
+            raise TypeError
+        if not isinstance(starting_xy, tuple):
+            raise TypeError
+        if not all([isinstance(x, int) for x in starting_xy]):
+            raise TypeError
+        if not all([x >= 0 for x in starting_xy]):
+            raise ValueError
+        if zoom < 1:
+            raise ValueError
+        if len(img_arr.shape) != 3:
+            raise ValueError
+        height, width, _ = img_arr.shape
+        new_dimension = min(height, width)
+        new_height = int(new_dimension / zoom)
+        new_width = int(new_dimension / zoom)
+        left, upper = starting_xy
+        right = left + new_width
+        lower = upper + new_height
+        if right > width or lower > height:
+            raise AssertionError("Error: zoomed area is out of bounds")
+        zoomed_img = img_arr[upper:lower, left:right, 0:1]
+        print(f"The shape of image is: {zoomed_img.shape} or ({zoomed_img.shape[0]}, {zoomed_img.shape[1]})")
+        return zoomed_img
+    except ValueError:
+        print("Error: invalid input value")
+        return None
+    except TypeError:
+        print("Error: invalid input type")
+        return None
+
+def rotate(img_arr : np.ndarray) -> np.ndarray:
+    if img_arr is None:
+        raise TypeError
+    if not isinstance(img_arr, np.ndarray):
+        raise TypeError
+    if len(img_arr.shape) != 3:
+        raise ValueError
+    x = np.rot90(img_arr)
+    print(f"New shape after Transpose: {x.shape[0], x.shape[1]}")
+    return x
+
+def main():
+    try:
+        img_arr = ft_load('animal.jpeg')
+        zoomed_img_arr = zoom(img_arr, 1.92, (450, 100))
+        print(zoomed_img_arr)
+        mirrored_img = np.fliplr(zoomed_img_arr)
+        transposed_img = rotate(mirrored_img)
+        if transposed_img is None:
+            return
+        print(transposed_img[0:400,0:400,0])
+        plt.imshow(transposed_img, cmap='gray')
+        plt.show()
+    except KeyboardInterrupt:
+        plt.close()
+    except Exception as e:
+        print(e)
+
+if __name__ == "__main__":
+    main()
