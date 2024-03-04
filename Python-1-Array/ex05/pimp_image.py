@@ -66,8 +66,8 @@ def ft_grey(array: np.ndarray) -> np.ndarray:
     
     This function takes an image array and converts it to greyscale
     """
-    grey_array = array.copy()
-    grey_array = np.dot(grey_array, [0.2989, 0.5870, 0.1140])
+    grey_array = np.mean(array, axis = 2)
+    grey_array = np.repeat(grey_array[:,:,np.newaxis], 3, axis=2).astype(np.uint8)
     print(grey_array)
     plt.imshow(grey_array, cmap='gray')
     plt.show()
