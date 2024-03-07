@@ -1,5 +1,7 @@
+pysqlite3
 flake8
 tqdm
 numpy
 matplotlib
 scikit-image
+pandas
